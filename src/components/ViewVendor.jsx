@@ -9,6 +9,7 @@ const ViewVendor = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedItem, setSelectedItem] = useState(null)
     const [formValues, setFormValues] = useState({})
+    const [deleteTarget, setDeleteTarget] = useState(null)
 
     const fetchData = () => {
 
@@ -66,6 +67,22 @@ const ViewVendor = () => {
             })
             .catch(() => {
                 alert('Failed to update vendor')
+            })
+    }
+
+    const confirmDelete = (value) => {
+        setDeleteTarget(value)
+    }
+
+    const deleteVendor = () => {
+        axios.post('http://localhost:3000/delete-vendor', { vendorid: deleteTarget.vendorid })
+            .then(() => {
+                alert('Vendor deleted successfully')
+                setDeleteTarget(null)
+                fetchData()
+            })
+            .catch(() => {
+                alert('Failed to delete vendor')
             })
     }
 
@@ -149,7 +166,10 @@ const ViewVendor = () => {
                                         <td>{value.paymentstatus}</td>
 
                                         <td>{value.stallnumber}</td>
-                                        <td><button className="btn btn-warning btn-sm" onClick={() => openEditModal(value)}>Edit</button></td>
+                                        <td>
+                                            <button className="btn btn-warning btn-sm me-2" onClick={() => openEditModal(value)}>Edit</button>
+                                            <button className="btn btn-danger btn-sm" onClick={() => confirmDelete(value)}>Delete</button>
+                                        </td>
 
                                     </tr>
 
@@ -196,6 +216,26 @@ const ViewVendor = () => {
                             <div className="modal-footer">
                                 <button className="btn btn-secondary" onClick={() => setSelectedItem(null)}>Cancel</button>
                                 <button className="btn btn-success" onClick={saveChanges}>Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {deleteTarget && (
+                <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Confirm Delete</h5>
+                                <button type="button" className="btn-close" onClick={() => setDeleteTarget(null)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <p>Are you sure you want to delete vendor {deleteTarget.vendorname}?</p>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={() => setDeleteTarget(null)}>Cancel</button>
+                                <button className="btn btn-danger" onClick={deleteVendor}>Delete</button>
                             </div>
                         </div>
                     </div>
