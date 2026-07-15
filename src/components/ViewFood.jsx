@@ -6,6 +6,8 @@ const ViewFood = () => {
 
     const [data, changeData] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
+    const [selectedItem, setSelectedItem] = useState(null)
+    const [formValues, setFormValues] = useState({})
 
     const fetchData = () => {
         axios.post("http://localhost:3000/view-food")
@@ -32,6 +34,27 @@ const ViewFood = () => {
 
         return searchableText.includes(searchTerm.toLowerCase())
     })
+
+    const openEditModal = (value) => {
+        setSelectedItem(value)
+        setFormValues({ ...value })
+    }
+
+    const handleInputChange = (event) => {
+        setFormValues({ ...formValues, [event.target.name]: event.target.value })
+    }
+
+    const saveChanges = () => {
+        axios.post('http://localhost:3000/update-food', formValues)
+            .then(() => {
+                alert('Food updated successfully')
+                setSelectedItem(null)
+                fetchData()
+            })
+            .catch(() => {
+                alert('Failed to update food')
+            })
+    }
 
     return (
         <div>
@@ -68,7 +91,7 @@ const ViewFood = () => {
                                                 <p><b>Price: </b>{value.price}</p>
                                                 <p><b>Availability Status: </b>{value.availabilityStatus}</p>
                                                 <p><b>Special Offer: </b>{value.specialOffer}</p>
-                                                <a href="#" className="btn btn-primary">Select</a>
+                                                <button className="btn btn-warning me-2" onClick={() => openEditModal(value)}>Edit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -83,6 +106,45 @@ const ViewFood = () => {
                     </div>
                 </div>
             </div>
+
+            {selectedItem && (
+                <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Edit Food Item</h5>
+                                <button type="button" className="btn-close" onClick={() => setSelectedItem(null)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="mb-2">
+                                    <label className="form-label">Food Item Name</label>
+                                    <input className="form-control" name="foodItemName" value={formValues.foodItemName || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="form-label">Vendor Name</label>
+                                    <input className="form-control" name="vendorName" value={formValues.vendorName || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="form-label">Price</label>
+                                    <input className="form-control" name="price" value={formValues.price || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="form-label">Availability Status</label>
+                                    <input className="form-control" name="availabilityStatus" value={formValues.availabilityStatus || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="form-label">Special Offer</label>
+                                    <input className="form-control" name="specialOffer" value={formValues.specialOffer || ''} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={() => setSelectedItem(null)}>Cancel</button>
+                                <button className="btn btn-success" onClick={saveChanges}>Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     )
