@@ -6,6 +6,7 @@ import NavigationBar from './NavigationBar'
 const ViewVendor = () => {
 
     const [data, changeData] = useState([])
+    const [searchTerm, setSearchTerm] = useState('')
 
     const fetchData = () => {
 
@@ -13,7 +14,7 @@ const ViewVendor = () => {
 
             .then((response) => {
 
-                changeData(response.data)
+                changeData(response.data || [])
 
             })
 
@@ -32,6 +33,19 @@ const ViewVendor = () => {
 
     }, [])
 
+    const filteredData = data.filter((value) => {
+        const searchableText = [
+            value.vendorname,
+            value.ownername,
+            value.businessname,
+            value.foodcategory,
+            value.cuisinetype,
+            value.paymentstatus
+        ].join(' ').toLowerCase()
+
+        return searchableText.includes(searchTerm.toLowerCase())
+    })
+
 
     return (
 
@@ -44,6 +58,16 @@ const ViewVendor = () => {
 
                     <div className="col-12">
 
+                        <div className="mt-3 mb-3">
+                            <label className="form-label">Search vendors</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search by vendor, owner, business, food category, cuisine or payment status"
+                                value={searchTerm}
+                                onChange={(event) => setSearchTerm(event.target.value)}
+                            />
+                        </div>
 
                         <table className="table table-bordered">
 
@@ -72,7 +96,7 @@ const ViewVendor = () => {
 
                             <tbody>
 
-                                {data.map((value, index) => (
+                                {filteredData.map((value, index) => (
 
                                     <tr key={index}>
 
