@@ -7,6 +7,8 @@ const View = () => {
 
     const [data, changeData] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
+    const [selectedItem, setSelectedItem] = useState(null)
+    const [formValues, setFormValues] = useState({})
 
     const fetchData = () => {
         axios.post("http://localhost:3000/view-stall")
@@ -33,6 +35,27 @@ const View = () => {
 
         return searchableText.includes(searchTerm.toLowerCase())
     })
+
+    const openEditModal = (value) => {
+        setSelectedItem(value)
+        setFormValues({ ...value })
+    }
+
+    const handleInputChange = (event) => {
+        setFormValues({ ...formValues, [event.target.name]: event.target.value })
+    }
+
+    const saveChanges = () => {
+        axios.post('http://localhost:3000/update-stall', formValues)
+            .then(() => {
+                alert('Stall updated successfully')
+                setSelectedItem(null)
+                fetchData()
+            })
+            .catch(() => {
+                alert('Failed to update stall')
+            })
+    }
 
     return (
         <div>
@@ -64,6 +87,7 @@ const View = () => {
                                     <th>paymentstatus</th>
                                     <th>bookingstatus</th>
                                     <th>festivalday</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
@@ -80,6 +104,7 @@ const View = () => {
                                         <td>{value.paymentstatus}</td>
                                         <td>{value.bookingstatus}</td>
                                         <td>{value.festivalday}</td>
+                                        <td><button className="btn btn-warning btn-sm" onClick={() => openEditModal(value)}>Edit</button></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -89,6 +114,41 @@ const View = () => {
                     </div>
                 </div>
             </div>
+
+            {selectedItem && (
+                <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Edit Stall Booking</h5>
+                                <button type="button" className="btn-close" onClick={() => setSelectedItem(null)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="mb-2">
+                                    <label className="form-label">Vendor Name</label>
+                                    <input className="form-control" name="vendorname" value={formValues.vendorname || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="form-label">Stall Number</label>
+                                    <input className="form-control" name="stallnumber" value={formValues.stallnumber || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="form-label">Booking Status</label>
+                                    <input className="form-control" name="bookingstatus" value={formValues.bookingstatus || ''} onChange={handleInputChange} />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="form-label">Payment Status</label>
+                                    <input className="form-control" name="paymentstatus" value={formValues.paymentstatus || ''} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={() => setSelectedItem(null)}>Cancel</button>
+                                <button className="btn btn-success" onClick={saveChanges}>Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
