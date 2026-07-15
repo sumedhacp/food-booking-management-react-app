@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import NavigationBar from './NavigationBar'
 
 
 const View = () => {
@@ -22,7 +23,7 @@ const View = () => {
 
     return (
         <div>
-           
+         <NavigationBar />  
             <div className="container">
                 <div className="row">
                     <div className="col-12">

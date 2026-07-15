@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import NavigationBar from './NavigationBar'
 
 
 const ViewVendor = () => {
@@ -36,7 +37,7 @@ const ViewVendor = () => {
 
         <div>
 
-            
+            <NavigationBar />
             <div className="container">
 
                 <div className="row">

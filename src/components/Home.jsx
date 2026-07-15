@@ -1,4 +1,5 @@
 import React from "react"
+import NavigationBar from "./NavigationBar"
 
 const Home = () => {
 
@@ -338,7 +339,7 @@ const Home = () => {
 
                 <div className="hero-content">
 
-
+<NavigationBar />
                     <h1>
 
                         Welcome to 
