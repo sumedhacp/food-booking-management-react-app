@@ -7,7 +7,7 @@ const View = () => {
     const [data, changeData] = useState([])
 
     const fetchData = () => {
-        axios.get("http://localhost:3000/view-stall")
+        axios.post("http://localhost:3000/view-stall")
             .then((response) => {
                 changeData(response.data)
             })
