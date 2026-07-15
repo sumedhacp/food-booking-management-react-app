@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
+
+import AddStall from './components/AddStall'
 import ViewFood from './components/ViewFood'
 
 function App() {
@@ -10,7 +9,8 @@ function App() {
 
   return (
     <>
-<ViewFood/>
+      <AddStall />
+      <ViewFood />
     </>
   )
 }
