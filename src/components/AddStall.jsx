@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 
 
-const Add = () => {
+const AddStall = () => {
 
 
 const [input, changeInput] = useState({
@@ -396,4 +396,4 @@ Submit
 }
 
 
-export default Add
+export default AddStall
