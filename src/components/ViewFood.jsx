@@ -8,6 +8,7 @@ const ViewFood = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedItem, setSelectedItem] = useState(null)
     const [formValues, setFormValues] = useState({})
+    const [deleteTarget, setDeleteTarget] = useState(null)
 
     const fetchData = () => {
         axios.post("http://localhost:3000/view-food")
@@ -56,6 +57,22 @@ const ViewFood = () => {
             })
     }
 
+    const confirmDelete = (value) => {
+        setDeleteTarget(value)
+    }
+
+    const deleteFood = () => {
+        axios.post('http://localhost:3000/delete-food', { menuId: deleteTarget.menuId })
+            .then(() => {
+                alert('Food deleted successfully')
+                setDeleteTarget(null)
+                fetchData()
+            })
+            .catch(() => {
+                alert('Failed to delete food')
+            })
+    }
+
     return (
         <div>
             <NavigationBar />
@@ -92,6 +109,7 @@ const ViewFood = () => {
                                                 <p><b>Availability Status: </b>{value.availabilityStatus}</p>
                                                 <p><b>Special Offer: </b>{value.specialOffer}</p>
                                                 <button className="btn btn-warning me-2" onClick={() => openEditModal(value)}>Edit</button>
+                                                <button className="btn btn-danger" onClick={() => confirmDelete(value)}>Delete</button>
                                             </div>
                                         </div>
                                     </div>
@@ -140,6 +158,26 @@ const ViewFood = () => {
                             <div className="modal-footer">
                                 <button className="btn btn-secondary" onClick={() => setSelectedItem(null)}>Cancel</button>
                                 <button className="btn btn-success" onClick={saveChanges}>Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {deleteTarget && (
+                <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Confirm Delete</h5>
+                                <button type="button" className="btn-close" onClick={() => setDeleteTarget(null)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <p>Are you sure you want to delete {deleteTarget.foodItemName}?</p>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={() => setDeleteTarget(null)}>Cancel</button>
+                                <button className="btn btn-danger" onClick={deleteFood}>Delete</button>
                             </div>
                         </div>
                     </div>
