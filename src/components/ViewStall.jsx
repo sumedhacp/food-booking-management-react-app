@@ -75,23 +75,30 @@ const View = () => {
     }
 
     return (
-        <div>
+        <div className="page-shell">
             <NavigationBar />
             <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="mt-3 mb-3">
-                            <label className="form-label">Search stalls</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Search by vendor, stall number, booking status or festival day"
-                                value={searchTerm}
-                                onChange={(event) => setSearchTerm(event.target.value)}
-                            />
+                <div className="page-card p-4 p-md-5">
+                    <div className="page-header">
+                        <div>
+                            <h3 className="section-title">Stall Bookings</h3>
+                            <p className="section-subtitle">Monitor bookings with a simpler, more readable table layout.</p>
                         </div>
+                    </div>
 
-                        <table className="table table-bordered">
+                    <div className="mb-3">
+                        <label className="form-label">Search stalls</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by vendor, stall number, booking status or festival day"
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                        />
+                    </div>
+
+                    <div className="table-shell">
+                        <table className="table align-middle mb-0">
                             <thead>
                                 <tr>
                                     <th>bookingid</th>
@@ -128,9 +135,7 @@ const View = () => {
                                     </tr>
                                 ))}
                             </tbody>
-
                         </table>
-
                     </div>
                 </div>
             </div>

@@ -67,18 +67,21 @@ const readValue = ()=>{
 
 return(
 
-<div>
+<div className="page-shell">
 
 
 <NavigationBar />
 <div className="container">
 
-<div className="row">
+<div className="page-card p-4 p-md-5">
+    <div className="page-header">
+        <div>
+            <h3 className="section-title">Add Stall</h3>
+            <p className="section-subtitle">Create a polished booking form for every stall entry.</p>
+        </div>
+    </div>
 
-<div className="col-12">
-
-
-<div className="row">
+<div className="row g-3">
 
 
 
@@ -357,44 +360,14 @@ onChange={inputHandler}
 
 
 <div className="col-12 mt-3">
-
-
-<button
-
-className="btn btn-success"
-
-onClick={readValue}
-
->
-
-Submit
-
-</button>
-
-
+    <button className="btn btn-success px-4" onClick={readValue}>Submit</button>
 </div>
 
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-)
-
-
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
-
 
 export default AddStall

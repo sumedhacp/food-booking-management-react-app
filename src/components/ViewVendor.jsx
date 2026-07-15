@@ -88,33 +88,32 @@ const ViewVendor = () => {
 
 
     return (
-
-        <div>
-
+        <div className="page-shell">
             <NavigationBar />
             <div className="container">
-
-                <div className="row">
-
-                    <div className="col-12">
-
-                        <div className="mt-3 mb-3">
-                            <label className="form-label">Search vendors</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Search by vendor, owner, business, food category, cuisine or payment status"
-                                value={searchTerm}
-                                onChange={(event) => setSearchTerm(event.target.value)}
-                            />
+                <div className="page-card p-4 p-md-5">
+                    <div className="page-header">
+                        <div>
+                            <h3 className="section-title">Vendor Directory</h3>
+                            <p className="section-subtitle">Review vendors with a tidy, professional table and search bar.</p>
                         </div>
+                    </div>
 
-                        <table className="table table-bordered">
+                    <div className="mb-3">
+                        <label className="form-label">Search vendors</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by vendor, owner, business, food category, cuisine or payment status"
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                        />
+                    </div>
 
+                    <div className="table-shell">
+                        <table className="table align-middle mb-0">
                             <thead>
-
                                 <tr>
-
                                     <th>Vendor ID</th>
                                     <th>Vendor Name</th>
                                     <th>Owner Name</th>
@@ -129,62 +128,35 @@ const ViewVendor = () => {
                                     <th>Payment Status</th>
                                     <th>Stall Number</th>
                                     <th>Actions</th>
-
                                 </tr>
-
                             </thead>
 
-
                             <tbody>
-
                                 {filteredData.map((value, index) => (
-
                                     <tr key={index}>
-
                                         <td>{value.vendorid}</td>
-
                                         <td>{value.vendorname}</td>
-
                                         <td>{value.ownername}</td>
-
                                         <td>{value.phonenumber}</td>
-
                                         <td>{value.email}</td>
-
                                         <td>{value.businessname}</td>
-
                                         <td>{value.foodcategory}</td>
-
                                         <td>{value.cuisinetype}</td>
-
                                         <td>{value.numberofstaff}</td>
-
                                         <td>{value.licensenumber}</td>
-
                                         <td>{value.bookingdate}</td>
-
                                         <td>{value.paymentstatus}</td>
-
                                         <td>{value.stallnumber}</td>
                                         <td>
                                             <button className="btn btn-warning btn-sm me-2" onClick={() => openEditModal(value)}>Edit</button>
                                             <button className="btn btn-danger btn-sm" onClick={() => confirmDelete(value)}>Delete</button>
                                         </td>
-
                                     </tr>
-
                                 ))}
-
                             </tbody>
-
-
                         </table>
-
-
                     </div>
-
                 </div>
-
             </div>
 
             {selectedItem && (
@@ -241,9 +213,7 @@ const ViewVendor = () => {
                     </div>
                 </div>
             )}
-
         </div>
-
     )
 
 }
