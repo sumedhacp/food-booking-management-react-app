@@ -8,7 +8,7 @@ const ViewVendor = () => {
 
     const fetchData = () => {
 
-        axios.get("http://localhost:3000/view-vendor")
+        axios.post("http://localhost:3000/view-vendor")
 
             .then((response) => {
 
