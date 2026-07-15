@@ -10,6 +10,7 @@ import AddFood from './components/AddFood'
 import ViewVendor from './components/ViewVendor'
 import View from './components/ViewStall'
 import ViewFood from './components/ViewFood'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
   const [count, setCount] = useState(0)
